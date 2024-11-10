@@ -64,7 +64,7 @@ def main() -> None:
             "max": descr.max
         }
         for col, descr in datas.items()
-    }).T
+    })
 
     print(Fore.CYAN + str(df_datas))
 
