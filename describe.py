@@ -2,7 +2,8 @@ import pandas as pd
 from typing import Dict
 import sys
 import logging
-from colorama import Fore, Style, init
+from colorama import Fore, init
+from utils import *
 
 init(autoreset=True)
 
@@ -36,14 +37,14 @@ def describe(df: pd.DataFrame) -> Dict[str, Describe]:
     for i in df.columns:
         if df[i].dtype == "int64" or df[i].dtype == "float64":
             datas[i] = Describe()
-            datas[i].count = df[i].count()
-            datas[i].mean = df[i].mean()
-            datas[i].std = df[i].std()
-            datas[i].min = df[i].min()
-            datas[i].twenty_five = df[i].quantile(0.25)
-            datas[i].fifty = df[i].quantile(0.50)
-            datas[i].seventy_five = df[i].quantile(0.75)
-            datas[i].max = df[i].max()
+            datas[i].count = ColCount(df, i).count.__format__(".6f")
+            datas[i].mean = ColMean(df, i).mean.__format__(".6f")
+            datas[i].std = ColStd(df, i).std.__format__(".6f")
+            datas[i].min = ColMin(df, i).min.__format__(".6f")
+            datas[i].twenty_five = ColQuantile(df, i, 0.25).quantile.__format__(".6f")
+            datas[i].fifty = ColQuantile(df, i, 0.50).quantile.__format__(".6f")
+            datas[i].seventy_five = ColQuantile(df, i, 0.75).quantile.__format__(".6f")
+            datas[i].max = ColMax(df, i).max.__format__(".6f")
     return datas
 
 def main() -> None:
@@ -67,6 +68,11 @@ def main() -> None:
     })
 
     print(Fore.CYAN + str(df_datas))
+
+    logger.info(Fore.YELLOW + "----------------------------------------")
+    logger.info(Fore.YELLOW + "[Info] - Pandas describe...")
+
+    print(df.describe())
 
 if __name__ == "__main__":
     main()
