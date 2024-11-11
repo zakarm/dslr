@@ -3,7 +3,7 @@ from typing import Dict
 import sys
 import logging
 from colorama import Fore, init
-from utils import *
+from utils.statistics_func import *
 
 init(autoreset=True)
 
